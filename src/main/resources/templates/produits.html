@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorator="menu">
+<head>
+<meta charset="utf-8"/>
+<title>Produits</title>
+<link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}"/>
+</head>
+<body>
+<div layout:fragment="content">
+	<div class="container">
+		<form th:action="@{index}" method="get">
+			<label>Saisissez le nom du produit :</label>
+			<input type="text" name="mc" th:value="${mc}"/>
+			<button class="btn btn-primary">Chercher</button>
+		</form>
+	</div>
+	<div class="container">
+	<h3>Liste de produits</h3>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>ID</th><th>Désignation</th><th>Prix</th><th>Quantité</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="p:${listProduits}">
+				<td th:text="${p.id}"></td>
+				<td th:text="${p.designation}"></td>
+				<td th:text="${p.prix}"></td>
+				<td th:text="${p.quantite}"></td>
+				<td> <a th:href="@{edit(id=${p.id}, page=${pageCourante}, size=${size}, mc=${mc})}">Modifier</a></td>
+				<td> <a onclick="return confirm('Est te vous sûre?')" th:href="@{delete(id=${p.id}, page=${pageCourante}, size=${size}, mc=${mc})}">Supprimer</a></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	<div class="container">
+	<ul class="nav nav-pills">
+		<li th:class="${pageCourante}==${status.index}?'active':''" th:each="pa,status:${pages}">
+		<a th:href="@{index(page=${status.index}, size=${size}, mc=${mc})}" th:text="${status.index}"></a>
+		</li>
+	</ul>
+	</div>
+</div>
+</body>
+</html>
